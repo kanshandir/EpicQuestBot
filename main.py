@@ -1,16 +1,23 @@
-# This is a sample Python script.
+from telegram.ext import Updater, CommandHandler
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from character import create_character, inventory
+from critical_variables import BotToken
+from handlers import attack, start_quest
 
 
-# Press the green button in the gutter to run the script.
+def main() -> None:
+    updater = Updater(token=BotToken, use_context=True)
+
+    dispatcher = updater.dispatcher
+
+    dispatcher.add_handler(CommandHandler("create_character", create_character))
+    dispatcher.add_handler(CommandHandler("start_quest", start_quest))
+    dispatcher.add_handler(CommandHandler("attack", attack))
+    dispatcher.add_handler(CommandHandler("inventory", inventory))
+
+    updater.start_polling()
+    updater.idle()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
